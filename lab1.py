@@ -1,6 +1,4 @@
 import time
-import os
-import sys
 
 
 ESC = "\x1b"
@@ -16,28 +14,30 @@ GREEN = f"{CSI}38;5;10m"
 
 # Вариант 9
 #Флаг Финляндии
-def flag(height=16, width = 32):
-    line_flag_h = height//4
-    offse_h = height // 2 - line_flag_h//2
+def flag(height=16, width=32):
+    line_flag_h = height // 4
+    offse_h = height // 2 - line_flag_h // 2
     line_flag_w = width//4
-    offset_w = width // 2 - line_flag_w//2
+    offset_w = width // 2 - line_flag_w // 2
+    white_line = f"{WHITE}{' '*(offset_w-5)}"
+    blue_line = f"{BLUE}{' '* line_flag_w}"
     for line in range(height):
-        if line < offse_h or line > offse_h+line_flag_h/2:
-            print(f"{WHITE}{' '*(offset_w-5)}{BLUE}{' '* line_flag_w}{WHITE}{' '*(offset_w+5)}{RESET}")
+        if line < offse_h or line > offse_h + line_flag_h / 2:
+            print(f"{white_line}{blue_line}{white_line}{RESET}")
         else:
-            print(f"{BLUE}{' '* (width)}{RESET}")
+            print(f"{blue_line}{RESET}")
 
 #Узор
 def pattern(size=2,radius=10):
     for y in range(-radius,radius+1):
         line = ""
         for _ in range(size):
-            for x in range(-radius,radius+1):
-                if x*x+(y*2)**2<=radius*radius:
-                    line += BLACK +  " ";
+            for x in range(-radius, radius+1):
+                if x*x + (y*2)**2 <= radius*radius:
+                    line += BLACK +  " "
                 else:
-                    line += WHITE +  " ";
-        line += RESET;
+                    line += WHITE +  " "
+        line += RESET
         print(line)
 
 #График
@@ -55,21 +55,26 @@ def graph(x_min=-30, x_max=30, y_min=-10, y_max=10):
                 line += " "
         print(line)
 
+
 # Найти в файле 
 # Числа от 5 до 10 и числа от -5 до -10, остальные отбросить
-
 def poisk_number_in_file():
     file = open("sequence.txt")
     n = file.read().split()
     file.close()
 
-    c2 = c1 = t = 0
+    c2 = 0
+    c1 = 0
+    t = 0
+
     for x in n:
         x = float(x)
         if 5 <= x <= 10:
-            c1+= 1; t+=1
+            c1 += 1 
+            t += 1
         elif -10 <= x <= -5: 
-            c2+=1; t+=1
+            c2 += 1 
+            t += 1
     if t:
         max_x = 50
         bar1 = "#" * (c1*max_x//t) + RESET
@@ -84,6 +89,8 @@ def poisk_number_in_file():
 #чистка экрана
 def clear():
     print(CSI + "2J" + CSI + "H", end="")
+
+
 #отрисовка змейки
 def draw(rows, cols, snake):
     clear()
@@ -97,6 +104,8 @@ def draw(rows, cols, snake):
             else:
                 line += " "                 
         print(line)
+
+
 #движение змейки
 def snake_game(rows=10, cols=30, snake_len=6, delay=0.2):
 
